@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <Button
+        android:id="@+id/startServiceButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:onClick="startStartedService"
+        android:text="the started service"
+        app:layout_constraintEnd_toEndOf="@+id/stopServiceButton"
+        app:layout_constraintStart_toStartOf="@+id/stopServiceButton"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/stopServiceButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="116dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="81dp"
+        android:layout_marginBottom="635dp"
+        android:onClick="stopStartedService"
+        android:text="Stop the started service"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/startServiceButton"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <CheckBox
+        android:id="@+id/checkBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="146dp"
+        android:text="Check application"
+        app:layout_constraintEnd_toEndOf="@+id/stopServiceButton"
+        app:layout_constraintStart_toStartOf="@+id/stopServiceButton"
+        app:layout_constraintTop_toBottomOf="@+id/stopServiceButton" />
+
+    <Button
+        android:id="@+id/startIntentServiceButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="startIntentService"
+        android:text="Start Intent Service"
+        app:layout_constraintEnd_toEndOf="@+id/stopServiceButton"
+        app:layout_constraintStart_toStartOf="@+id/stopServiceButton"
+        app:layout_constraintTop_toBottomOf="@+id/stopServiceButton" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
