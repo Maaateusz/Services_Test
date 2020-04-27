@@ -2,7 +2,9 @@ package com.example.services_test;
 
 import android.app.IntentService;
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.IBinder;
+import android.os.ResultReceiver;
 import android.util.Log;
 
 import androidx.annotation.Nullable;
@@ -24,6 +26,9 @@ public class MyIntentService extends IntentService {
     protected void onHandleIntent(@Nullable Intent intent) {
         Log.i(TAG, "onHandleIntent, Thread: " + Thread.currentThread().getName());
         int sleepTime = intent.getIntExtra("sleepTime", 1);
+
+        ResultReceiver resultReceiver = intent.getParcelableExtra("receiver");
+
         int ctr = 1;
         // Dummy long operation
         while(ctr <= sleepTime){
@@ -35,6 +40,11 @@ public class MyIntentService extends IntentService {
             }
             ctr++;
         }
+
+        Bundle bundle = new Bundle();
+        bundle.putString("resultIntentService", "Counter stopped at " + ctr);
+        resultReceiver.send(18, bundle);
+        Log.i(TAG, "send");
     }
 
     @Override
