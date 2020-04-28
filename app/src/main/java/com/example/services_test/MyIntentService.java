@@ -43,8 +43,9 @@ public class MyIntentService extends IntentService {
 
         Bundle bundle = new Bundle();
         bundle.putString("resultIntentService", "Counter stopped at " + ctr);
+
+        //https://stackoverflow.com/questions/4510974/using-resultreceiver-in-android
         resultReceiver.send(18, bundle);
-        Log.i(TAG, "send");
     }
 
     @Override

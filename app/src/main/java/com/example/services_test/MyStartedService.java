@@ -2,6 +2,7 @@ package com.example.services_test;
 
 import android.app.Service;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.AsyncTask;
 import android.os.IBinder;
 import android.util.Log;
@@ -42,12 +43,12 @@ public class MyStartedService extends Service {
         Log.i(TAG, "onDestroy, Thread: " + Thread.currentThread().getName());
     }
 
-    class MyAsyncTask extends AsyncTask<Integer, String, Void> {
+    class MyAsyncTask extends AsyncTask<Integer, String, String> {
 
         private final String TAG = MyAsyncTask.class.getSimpleName();
 
         @Override
-        protected Void doInBackground(Integer... voids) {
+        protected String doInBackground(Integer... voids) {
             Log.i(TAG, "DoInBackground, Thread: " + Thread.currentThread().getName());
             int sleepTime = voids[0];
             int ctr = 1;
@@ -62,7 +63,7 @@ public class MyStartedService extends Service {
                 ctr++;
             }
 
-            return null;
+            return "Counter: " + ctr;
         }
 
         @Override
@@ -72,11 +73,16 @@ public class MyStartedService extends Service {
         }
 
         @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
+        protected void onPostExecute(String str) {
+            super.onPostExecute(str);
             // Auto Destroy
             stopSelf();
             Log.i(TAG, "onPostExecute, Thread: " + Thread.currentThread().getName());
+
+            //Broadcast Receiver
+            Intent intent = new Intent("action.service.to.activity");
+            intent.putExtra("startServiceResult", str);
+            sendBroadcast(intent);
         }
 
         @Override

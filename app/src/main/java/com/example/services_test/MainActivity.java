@@ -2,7 +2,10 @@ package com.example.services_test;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.ResultReceiver;
@@ -16,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
 
     private TextView txvStartedServiceResult, txvIntentServiceResult;
     private Handler handler = new Handler();
+    //private MyResultReceiver myResultReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +42,8 @@ public class MainActivity extends AppCompatActivity {
 
     public void startIntentService(View view){
 
-        ResultReceiver myResultReceiver = new ResultReceiver(null);
+        //ResultReceiver ResultReceiver = new ResultReceiver(null);
+        MyResultReceiver myResultReceiver = new MyResultReceiver(new Handler());
 
         Intent intent = new Intent(this, MyIntentService.class);
         intent.putExtra("sleepTime", 5);
@@ -46,6 +51,30 @@ public class MainActivity extends AppCompatActivity {
         startService(intent);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction("action.service.to.activity");
+        registerReceiver(myStartedServiceReceiver, intentFilter);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unregisterReceiver(myStartedServiceReceiver);
+    }
+
+    private BroadcastReceiver myStartedServiceReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String result = intent.getStringExtra("startServiceResult");
+            txvStartedServiceResult.setText(result);
+        }
+    };
+
+    // TO receive the data back from MyIntentService using ResultReceiver
     private class MyResultReceiver extends ResultReceiver{
 
         public MyResultReceiver(Handler handler) {
@@ -61,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
             if (resultCode == 18 && resultData != null){
                 final String result = resultData.getString("resultIntentService");
 
-                //help acces ui element from worker thread
+                //help access ui element from worker thread
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
