@@ -11,6 +11,7 @@ import android.os.Handler;
 import android.os.ResultReceiver;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import org.w3c.dom.Text;
@@ -27,6 +28,15 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         txvStartedServiceResult = (TextView) findViewById(R.id.txvStartedServiceResult);
         txvIntentServiceResult = (TextView) findViewById(R.id.txvIntentServiceResult);
+
+        Button goToSecondActivityButton = (Button) findViewById(R.id.goToSecondActivityButton);
+        goToSecondActivityButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, SecondActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     public void startStartedService(View view){
